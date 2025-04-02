@@ -1,0 +1,12 @@
+{
+  "name": "universal-thing",
+  "version": "0.0.1",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": "Nick Niemeir <nick.niemeir@gmail.com>",
+  "license": "ISC",
+  "description": ""
+}
