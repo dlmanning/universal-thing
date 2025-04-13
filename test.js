@@ -31,7 +31,7 @@ assert(() => +a.b.c.d === 4)
 assert(() => a.aprop === a.aprop)
 assert(() => a.bprop('test') === a.bprop('test'))
 
-console.log(a._log)
+// console.log(a._log)
 
 const document = universalThing()
 
@@ -39,7 +39,7 @@ var el = document.getElementById('1.2.3')
 el.innerHTML = 'foo'
 el.innerHTML += 'bar'
 
-console.log(document._log)
+// console.log(document._log)
 
 const fetch = universalThing()
 
@@ -61,10 +61,43 @@ async function getData() {
 
 getData()
 
+const arr = universalThing()
+
+for (const i of arr) {
+  console.log('here ' + i)
+}
+
+const arr2 = universalThing()
+
+var n = 0
+var a = null
+
+while (a = arr2.pop()) {
+  console.log(n++)
+}
+
+assert(() => arr2.length === 0)
+
+assert(() => n === 3)
+
+const arr3 = universalThing()
+
+var n = 0
+var a = null
+
+for (n = 0; n < arr3.length; n += 1) {
+  console.log(n)
+}
+
+assert(() => n === 3)
+
+
+// console.log(arr._log)
+
 function assert (fn) {
   var a = fn()
   if (!a) {
-    throw new Error('Assertion failed: ' + fn.toString())
+    throw new Error(`Assertion failed got ${a} from ${fn.toString()}`)
   }
 }
 

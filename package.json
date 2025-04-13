@@ -1,6 +1,6 @@
 {
   "name": "universal-thing",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -8,5 +8,5 @@
   },
   "author": "Nick Niemeir <nick.niemeir@gmail.com>",
   "license": "ISC",
-  "description": ""
+  "description": "Create a universal object for mocking, testing, place holding, or other experimentation"
 }
