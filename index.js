@@ -2,16 +2,20 @@ export default function universalThing (handler) {
   return createProxy(handler)
 }
 
+export const logSymbol = Symbol('Log Symbol')
+
+universalThing.logSymbol = logSymbol
+
 function createProxy (handler=function () {}, path=['root'], log=[], parent) {
   // Handler can be used to return custom values in various situations
   // path is the reverse order of properties accessed to get to where you are
-  // log can be inspected as obj._log to see calls that were made
+  // log can be inspected as obj[createThing.logSymbol] to see calls that were made
   const internal = new Map()
-  internal.set('length', 3)
+  let len = 3
 
   const p = new Proxy(base, {
     get (tar, prop, rec) {
-      if (prop === "_log") return log
+      if (prop === logSymbol) return log
       if (prop === Symbol.toPrimitive) return toPrimitive
       // TODO: Decide if symbols should be mocked or not
       // if (typeof prop === 'symbol') return tar[prop]
@@ -24,8 +28,8 @@ function createProxy (handler=function () {}, path=['root'], log=[], parent) {
       return runHandler(action, next)
     },
     set (tar, prop, val) {
-      if (prop === "_log") {
-        throw new Error("Something tried to set _log on universal thing")
+      if (prop === logSymbol) {
+        throw new Error("Something tried to set logSymbol on universal thing")
       }
       internal.set(prop, val)
       const action = { type: "set", path, args: [prop, val] }
@@ -35,7 +39,7 @@ function createProxy (handler=function () {}, path=['root'], log=[], parent) {
   })
   function toPrimitive (hint) {
     if (hint === 'number') {
-      return path.length
+      return len
     }
     return path.map((a, n) => {
         if (n === path.length - 1 && a === 'root') return a
@@ -71,17 +75,15 @@ function createProxy (handler=function () {}, path=['root'], log=[], parent) {
     }
 
     if (action.args[0] === "done" && action.path[0] === '_called' && action.path[1] === 'next') {
-      let len = internal.get('length')
-      internal.set('length', len - 1)
+      len = len - 1
       return len <= 0
     }
 
     if (action.type === 'call' && (action.path[0] === "pop" || action.path[0] === "unshift")) {
-      let len = parent.length
       if (len <= 0) {
         return void 0
       } else {
-        parent.length = len - 1
+        len = len - 1
         return next
       }
     }

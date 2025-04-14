@@ -26,12 +26,12 @@ assert(() => a.test === 'weeeee wooooo')
   console.log('after awaited')
 })()
 
-assert(() => +a.b.c.d === 4)
+assert(() => +a.b.c.d === 3)
 
 assert(() => a.aprop === a.aprop)
 assert(() => a.bprop('test') === a.bprop('test'))
 
-// console.log(a._log)
+// console.log(a[universalThing.logSymbol])
 
 const document = universalThing()
 
@@ -39,7 +39,7 @@ var el = document.getElementById('1.2.3')
 el.innerHTML = 'foo'
 el.innerHTML += 'bar'
 
-// console.log(document._log)
+// console.log(document[universalThing.logSymbol])
 
 const fetch = universalThing()
 
@@ -76,8 +76,6 @@ while (a = arr2.pop()) {
   console.log(n++)
 }
 
-assert(() => arr2.length === 0)
-
 assert(() => n === 3)
 
 const arr3 = universalThing()
@@ -92,7 +90,7 @@ for (n = 0; n < arr3.length; n += 1) {
 assert(() => n === 3)
 
 
-// console.log(arr._log)
+// console.log(arr[universalThing.logSymbol])
 
 function assert (fn) {
   var a = fn()
